@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Django Log Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        select, input[type="text"], button {
+            padding: 8px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+            background-color: #fff;
+        }
+
+        pre {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            max-height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Django Log Viewer</h2>
+    <form method="get">
+      {{ form.as_p }}
+      <button type="submit">Search Logs</button>
+    </form>
+
+    <table>
+      <tr><th>Timestamp</th><th>Entry</th></tr>
+      {% for entry in entries %}
+        <tr>
+          <td>{{ entry.timestamp }}</td>
+          <td>{{ entry.content|linebreaksbr }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="2">No results found.</td></tr>
+      {% endfor %}
+    </table>
+
+    {% if selected_log %}
+        <h3>Viewing: {{ selected_log }}</h3>
+        <pre>{{ log_content }}</pre>
+    {% endif %}
+</body>
+</html>
